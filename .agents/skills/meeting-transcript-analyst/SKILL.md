@@ -199,3 +199,192 @@ Use the following headings exactly:
 - Prefer `No se evidencia en la transcripcion` when a section has no supporting content.
 - Use `Hecho`, `Inferencia`, or `Dato no disponible` labels when the distinction matters.
 - Keep the analysis executive and actionable, but preserve traceability to the transcript.
+
+## Markdown/PDF Styling Guidance
+
+When the user asks to generate a `.md` document, a shareable report, or a document intended to be exported as PDF from VS Code, keep the required analysis structure from this skill and add a professional Markdown/PDF presentation layer.
+
+Important rules:
+
+- Preserve the headings and analytical format defined in `Required Output Structure`; do not replace the meeting-analysis structure with another report template.
+- The styling is only a visual wrapper around the transcript analysis.
+- Do not invent content to fill visual sections.
+- The generated `.md` must be directly exportable using common VS Code Markdown-to-PDF extensions.
+- Prefer inline CSS in the Markdown file so the user does not need external CSS files.
+- Use ASCII-compatible text unless the source document already requires accents or special characters.
+
+For Markdown files intended for PDF export, add this structure before the analysis body:
+
+```markdown
+---
+title: "Informe de Analisis de Reunion"
+subtitle: "<Nombre de reunion o proyecto>"
+author: "Business Analyst Senior"
+date: "<fecha del analisis>"
+lang: es
+toc: true
+toc-depth: 3
+geometry: margin=2cm
+---
+
+<style>
+  body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #1f2937;
+    line-height: 1.55;
+    font-size: 11.2pt;
+  }
+
+  h1, h2, h3 {
+    color: #12355b;
+    font-weight: 700;
+  }
+
+  h1 {
+    border-bottom: 3px solid #12355b;
+    padding-bottom: 8px;
+    margin-top: 28px;
+  }
+
+  h2 {
+    border-bottom: 1px solid #d9e2ec;
+    padding-bottom: 4px;
+    margin-top: 24px;
+  }
+
+  h3 {
+    margin-top: 18px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0 22px 0;
+    font-size: 10pt;
+  }
+
+  th {
+    background: #12355b;
+    color: white;
+    font-weight: 700;
+    text-align: left;
+  }
+
+  th, td {
+    border: 1px solid #d0d7de;
+    padding: 8px 10px;
+    vertical-align: top;
+  }
+
+  tr:nth-child(even) td {
+    background: #f8fafc;
+  }
+
+  blockquote {
+    border-left: 5px solid #2f80ed;
+    background: #eef6ff;
+    padding: 10px 14px;
+    color: #17324d;
+    margin: 16px 0;
+  }
+
+  .cover {
+    text-align: center;
+    padding-top: 90px;
+  }
+
+  .cover h1 {
+    border: none;
+    font-size: 30pt;
+    margin-bottom: 8px;
+  }
+
+  .cover h2 {
+    border: none;
+    font-size: 18pt;
+    color: #375a7f;
+    margin-top: 0;
+  }
+
+  .meta-box {
+    border: 1px solid #d0d7de;
+    background: #f8fafc;
+    padding: 14px 18px;
+    margin: 28px auto;
+    width: 78%;
+    text-align: left;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    background: #e6f4ea;
+    color: #137333;
+    font-weight: 700;
+    font-size: 9pt;
+  }
+
+  .warning {
+    background: #fff7e6;
+    border-left: 5px solid #f59e0b;
+    padding: 10px 14px;
+    margin: 16px 0;
+  }
+
+  .critical {
+    background: #fff1f2;
+    border-left: 5px solid #dc2626;
+    padding: 10px 14px;
+    margin: 16px 0;
+  }
+
+  .page-break {
+    page-break-before: always;
+  }
+</style>
+
+<div class="cover">
+
+# Informe de Analisis de Reunion
+
+## <Nombre de reunion o proyecto>
+
+<div class="meta-box">
+
+**Documento base:** `<archivo fuente>`  
+**Formato fuente:** `<VTT, texto, Word, etc.>`  
+**Tema principal:** `<tema principal inferido o indicado>`  
+**Fecha del analisis:** `<fecha>`  
+**Estado del analisis:** <span class="badge">Analisis de reunion</span>
+
+</div>
+
+</div>
+
+<div class="page-break"></div>
+```
+
+After the cover, continue with the required analysis sections. Use the same section names from `Required Output Structure`, optionally numbered for PDF readability:
+
+```markdown
+# 1. Resumen Ejecutivo
+# 2. Participantes Identificados
+# 3. Temas Tratados
+# 4. Decisiones
+# 5. Compromisos y Tareas
+# 6. Riesgos o Bloqueos
+# 7. Preguntas Abiertas
+# 8. Requerimientos Detectados
+# 9. Proximos Pasos Recomendados
+# 10. Limitaciones del Analisis
+```
+
+Formatting guidance for the body:
+
+- Use tables for participants, decisions, commitments, risks, requirements, open questions, and next steps.
+- Use blockquotes for the executive conclusion or the most important BA reading.
+- Use `<div class="warning">...</div>` for important open issues, transcript-quality limitations, or pending validations.
+- Use `<div class="critical">...</div>` only for high-risk unresolved definitions supported by the transcript.
+- Add `<div class="page-break"></div>` before major sections only when the document is long enough to benefit from pagination.
+- End the document with `**Fin del informe**`.
